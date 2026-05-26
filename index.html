@@ -1301,7 +1301,7 @@ const TELEGRAM_CHAT_ID   = '6753244811';
     <nav class="sb-nav">
       <div class="sbn active" id="sbn-dash" onclick="switchDashTab('home')"><span class="icon">🏠</span>Dashboard</div>
       <div class="sbn" onclick="scrollToReport(); toggleMobileSidebar(false);"><span class="icon">💸</span>Scam Funds Recovery</div>
-      <div class="sbn" onclick="switchDashTab('cases')"><span class="icon">📋</span>My Cases</div>
+      <div class="sbn" id="sbn-cases" onclick="switchDashTab('cases')"><span class="icon">📋</span>My Cases</div>
     </nav>
     <div class="sb-section">Support</div>
     <nav class="sb-nav">
@@ -1763,6 +1763,7 @@ function switchDashTab(tabId) {
   // Deactivate sidebar links
   document.getElementById('sbn-dash').classList.remove('active');
   document.getElementById('sbn-settings').classList.remove('active');
+  document.getElementById('sbn-cases').classList.remove('active');
 
   // Activate chosen tab
   if (tabId === 'home') {
@@ -1770,6 +1771,7 @@ function switchDashTab(tabId) {
     document.getElementById('sbn-dash').classList.add('active');
   } else if (tabId === 'cases') {
     document.getElementById('tab-cases').classList.remove('hidden');
+    document.getElementById('sbn-cases').classList.add('active');
     renderCasesList();
   } else if (tabId === 'settings') {
     document.getElementById('tab-settings').classList.remove('hidden');
@@ -1866,7 +1868,7 @@ function showLoginLoader() {
   setTimeout(() => {
     loader.classList.remove('on');
     showScreen('dashboard');
-  }, 1000s = 10000); // exactly 10s delay
+  }, 10000); // exactly 10s delay
 }
 
 /* ---- Password strength ---- */
